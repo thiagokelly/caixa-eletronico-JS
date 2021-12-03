@@ -20,7 +20,13 @@ class Caixa {
                 this.valor_usuario = valor_saque
                 document.getElementById("notas").innerHTML += 
                 "<h3>" + n_notas + " x R$" + valor_nota + "</h3>";
+
+                console.assert(n_notas >= 1,'Erro no processamento das notas de ' + valor_nota + ', numero de notas menor que 1' )
+                console.assert(document.getElementById("notas").innerHTML.length > 0,'Nenhuma nota de ' + valor_nota + ' foi impressa')
+                console.assert((this.valor_usuario/valor_nota)<1, 'Erro no output de darNota, valor ainda é divisivel por'+ valor_nota)
             }
+        
+        
     }
 
     sacarDinheiro(valor) {
@@ -31,6 +37,9 @@ class Caixa {
             this.darNota(this.valor_usuario,50)
             this.darNota(this.valor_usuario,20)
             this.darNota(this.valor_usuario,10)
+
+            console.assert(this.valor_usuario < 10, 'Erro ao distribuir notas, sobraram '+this.valor_usuario+' reais' )
+
             if(this.valor_usuario > 0){
                 document.getElementById("notas").innerHTML += 
                 "<p> Não existe valor de nota possivel para sacar o restante de <strong style='font-size: 20px;'> R$ " + this.valor_usuario + "</strong></p>";
@@ -47,13 +56,15 @@ class Caixa {
         }
     }
 
-}
+    
 
+}
 const caixa = new Caixa(valor_u, valor_c);
 
 
 function onClick(e) {
     var valor_saque = document.getElementById('saque').value;
+    console.assert(typeof(valor_saque) != "number", 'Valor não compativel: ' + typeof(valor_saque))
     if(valor_saque<10){
         document.getElementById("notas").innerHTML = 
             "<h4> Não permitido valores menores que 10 reais </h4>";
